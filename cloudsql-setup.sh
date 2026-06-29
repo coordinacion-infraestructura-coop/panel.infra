@@ -24,7 +24,7 @@ gcloud sql instances create "$INSTANCE" \
   --database-version=POSTGRES_15 \
   --tier="$TIER" \
   --region="$REGION" \
-  --no-assign-ip \
+  --assign-ip \
   --storage-type=SSD \
   --storage-size=10GB \
   --storage-auto-increase \
