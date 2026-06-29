@@ -1,0 +1,518 @@
+swagger: "2.0"
+info:
+  title: "Ministerio de Cooperativas y Mutuales — API Unificada"
+  description: >
+    API Gateway centralizado para todos los servicios del Ministerio de
+    Cooperativas y Mutuales de la Provincia de Córdoba.
+    Valida JWT de Google OAuth 2.0, redirige al microservicio correspondiente.
+  version: "1.0.0"
+host: "api.ministerio-coop.gob.ar"
+schemes:
+  - "https"
+produces:
+  - "application/json"
+consumes:
+  - "application/json"
+
+# ---------------------------------------------------------------------------
+# Autenticación — Google OAuth 2.0
+# Nota: ambos sistemas (svc-privada existente y nuevos servicios) usan el mismo
+# issuer de Google, por lo que el token es compatible cross-service.
+# ---------------------------------------------------------------------------
+securityDefinitions:
+  google:
+    authorizationUrl: ""
+    flow: implicit
+    type: oauth2
+    x-google-issuer: "https://accounts.google.com"
+    x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
+    x-google-audiences: "gestorcooperativo"
+
+security:
+  - google: []
+
+# ---------------------------------------------------------------------------
+# Health check público (sin auth)
+# ---------------------------------------------------------------------------
+paths:
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Health check del gateway
+      security: []
+      responses:
+        "200":
+          description: OK
+
+  # =========================================================================
+  # svc-privada — Sistema existente (proyecto: essential-haiku-482815-u4)
+  # Cloud Run: infraestructura-gestioninterna-354063050046.southamerica-east1.run.app
+  # =========================================================================
+
+  /api/v1/privada/me:
+    get:
+      operationId: getUsuarioPrivada
+      summary: Usuario actual del sistema de gestiones
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Datos del usuario actual
+
+  /api/v1/privada/gestiones:
+    get:
+      operationId: listarGestiones
+      summary: Listado paginado de gestiones con filtros
+      tags: [privada]
+      parameters:
+        - in: query
+          name: estado
+          type: string
+        - in: query
+          name: departamento
+          type: string
+        - in: query
+          name: localidad
+          type: string
+        - in: query
+          name: q
+          type: string
+          description: Búsqueda full-text
+        - in: query
+          name: limit
+          type: integer
+          default: 50
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Lista de gestiones
+    post:
+      operationId: crearGestion
+      summary: Crear nueva gestión
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "201":
+          description: Gestión creada
+
+  /api/v1/privada/gestiones/{gestion_id}:
+    get:
+      operationId: getGestion
+      summary: Detalle de una gestión
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Detalle de la gestión
+    delete:
+      operationId: eliminarGestion
+      summary: Borrado lógico de gestión
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Gestión eliminada
+
+  /api/v1/privada/gestiones/{gestion_id}/cambiar-estado:
+    post:
+      operationId: cambiarEstadoGestion
+      summary: Cambiar estado de una gestión
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Estado cambiado
+
+  /api/v1/privada/catalogos/{catalogo}:
+    get:
+      operationId: getCatalogo
+      summary: Obtener catálogo (estados, urgencias, ministerios, etc.)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: catalogo
+          required: true
+          type: string
+          enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Catálogo solicitado
+
+  /api/v1/privada/gestiones/resumen-territorial:
+    get:
+      operationId: resumenTerritorialPrivada
+      summary: Resumen por departamento y localidad
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Resumen territorial
+
+  # =========================================================================
+  # svc-vivienda — Secretaría de Vivienda (proyecto: gestorcooperativo)
+  # URL real se actualiza tras el primer deploy de Cloud Run
+  # =========================================================================
+
+  /api/v1/vivienda/beneficiarios:
+    get:
+      operationId: listarBeneficiariosVivienda
+      summary: Listado paginado de beneficiarios
+      tags: [vivienda]
+      parameters:
+        - in: query
+          name: q
+          type: string
+        - in: query
+          name: limit
+          type: integer
+          default: 20
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Lista de beneficiarios
+    post:
+      operationId: crearBeneficiarioVivienda
+      summary: Registrar nuevo beneficiario
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "201":
+          description: Beneficiario creado
+
+  /api/v1/vivienda/beneficiarios/buscar:
+    get:
+      operationId: buscarBeneficiarioPorDni
+      summary: Buscar beneficiario por DNI
+      tags: [vivienda]
+      parameters:
+        - in: query
+          name: dni
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Beneficiario encontrado
+
+  /api/v1/vivienda/beneficiarios/{beneficiario_id}:
+    get:
+      operationId: getBeneficiarioVivienda
+      summary: Detalle de beneficiario
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: beneficiario_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Detalle del beneficiario
+    patch:
+      operationId: actualizarBeneficiarioVivienda
+      summary: Actualizar datos de beneficiario
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: beneficiario_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Beneficiario actualizado
+    delete:
+      operationId: eliminarBeneficiarioVivienda
+      summary: Soft delete de beneficiario
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: beneficiario_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Beneficiario eliminado
+
+  /api/v1/vivienda/expedientes:
+    get:
+      operationId: listarExpedientesVivienda
+      summary: Listado paginado de expedientes con filtros
+      tags: [vivienda]
+      parameters:
+        - in: query
+          name: estado
+          type: string
+        - in: query
+          name: programa_codigo
+          type: string
+        - in: query
+          name: limit
+          type: integer
+          default: 20
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Lista de expedientes
+    post:
+      operationId: crearExpedienteVivienda
+      summary: Crear nuevo expediente
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "201":
+          description: Expediente creado
+
+  /api/v1/vivienda/expedientes/{expediente_id}:
+    get:
+      operationId: getExpedienteVivienda
+      summary: Detalle de expediente
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Detalle del expediente
+    patch:
+      operationId: actualizarExpedienteVivienda
+      summary: Actualizar expediente
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Expediente actualizado
+
+  /api/v1/vivienda/expedientes/{expediente_id}/transicion:
+    post:
+      operationId: transicionExpedienteVivienda
+      summary: Cambiar estado del expediente
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Estado cambiado
+
+  /api/v1/vivienda/expedientes/{expediente_id}/historial:
+    get:
+      operationId: historialExpedienteVivienda
+      summary: Historial de cambios del expediente
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Historial del expediente
+
+  /api/v1/vivienda/programas:
+    get:
+      operationId: listarProgramasVivienda
+      summary: Catálogo de programas habitacionales
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Lista de programas
+
+  /api/v1/vivienda/programas/{programa_id}/estadisticas:
+    get:
+      operationId: estadisticasPrograma
+      summary: Estadísticas de un programa habitacional
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Estadísticas del programa
+
+  /api/v1/vivienda/asignaciones:
+    post:
+      operationId: crearAsignacionVivienda
+      summary: Asignar vivienda o lote a un expediente ASIGNADO
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "201":
+          description: Asignación creada
+    get:
+      operationId: listarAsignacionesVivienda
+      summary: Listado de asignaciones
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Lista de asignaciones
+
+  /api/v1/vivienda/cordon-cuneta:
+    get:
+      operationId: listarMunicipiosCordonCuneta
+      summary: Listado de municipios del Programa Cordón Cuneta
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Lista de municipios con sus estados
+
+  /api/v1/vivienda/cordon-cuneta/{municipio_id}:
+    patch:
+      operationId: actualizarMunicipioCordonCuneta
+      summary: Actualizar estado de un municipio en Cordón Cuneta
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: Municipio actualizado
+
+  /api/v1/vivienda/cordon-cuneta/kpis:
+    get:
+      operationId: kpisCordonCuneta
+      summary: KPIs agregados del Programa Cordón Cuneta
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-REPLACE-southamerica-east1.a.run.app"
+      responses:
+        "200":
+          description: KPIs del programa
+
+  # =========================================================================
+  # Servicios futuros — se agregan tras reunión de área + implementación
+  # =========================================================================
+  # svc-infraestructura: /api/v1/infraestructura/*
+  # svc-territorial:     /api/v1/territorial/*
+  # svc-gasifera:        /api/v1/gasifera/*
+  # svc-desarrollo:      /api/v1/desarrollo/*
