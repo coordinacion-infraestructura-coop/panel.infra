@@ -29,7 +29,6 @@ gcloud sql instances create "$INSTANCE" \
   --storage-size=10GB \
   --storage-auto-increase \
   --backup-start-time=03:00 \
-  --enable-bin-log \
   --maintenance-window-day=SUN \
   --maintenance-window-hour=4
 
