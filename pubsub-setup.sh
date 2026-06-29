@@ -16,11 +16,11 @@ SECRETARIAS=(vivienda infraestructura territorial gasifera desarrollo)
 # 1. Dead Letter Topic (debe crearse primero)
 # -----------------------------------------------------------------------------
 echo ">>> Creando dead letter topic..."
-gcloud pubsub topics create ministerio-eventos-dl
+gcloud pubsub topics create ministerio-eventos-dl 2>/dev/null || echo "  (ya existe)"
 
 gcloud pubsub subscriptions create dl-sub \
   --topic=ministerio-eventos-dl \
-  --ack-deadline=60
+  --ack-deadline=60 2>/dev/null || echo "  dl-sub ya existe"
 
 # -----------------------------------------------------------------------------
 # 2. Tópicos por secretaría
@@ -29,7 +29,7 @@ echo ">>> Creando tópicos por secretaría..."
 for SEC in "${SECRETARIAS[@]}"; do
   TOPIC="ministerio-eventos-${SEC}"
   echo "  Creando tópico: $TOPIC"
-  gcloud pubsub topics create "$TOPIC"
+  gcloud pubsub topics create "$TOPIC" 2>/dev/null || echo "  (ya existe)"
 
   # Subscripción para BigQuery (a implementar con Dataflow/BigQuery subscription)
   echo "  Creando subscripción BigQuery: bigquery-sub-${SEC}"
@@ -38,7 +38,7 @@ for SEC in "${SECRETARIAS[@]}"; do
     --ack-deadline=60 \
     --dead-letter-topic=ministerio-eventos-dl \
     --max-delivery-attempts=5 \
-    --message-retention-duration=7d
+    --message-retention-duration=7d 2>/dev/null || echo "  (ya existe)"
 
   # Subscripción para svc-notificaciones (futuro)
   echo "  Creando subscripción notificaciones: notificaciones-sub-${SEC}"
@@ -46,7 +46,7 @@ for SEC in "${SECRETARIAS[@]}"; do
     --topic="$TOPIC" \
     --ack-deadline=30 \
     --dead-letter-topic=ministerio-eventos-dl \
-    --max-delivery-attempts=3
+    --max-delivery-attempts=5 2>/dev/null || echo "  (ya existe)"
 
   # Dar permisos de Publisher al service account del servicio correspondiente
   gcloud pubsub topics add-iam-policy-binding "$TOPIC" \
