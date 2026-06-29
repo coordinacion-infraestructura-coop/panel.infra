@@ -19,20 +19,24 @@ gcloud config set project "$PROJECT_ID"
 # -----------------------------------------------------------------------------
 # 1. Crear instancia Cloud SQL PostgreSQL 15
 # -----------------------------------------------------------------------------
-echo ">>> Creando instancia Cloud SQL: $INSTANCE (puede tardar 5-10 min)..."
-gcloud sql instances create "$INSTANCE" \
-  --database-version=POSTGRES_15 \
-  --tier="$TIER" \
-  --region="$REGION" \
-  --assign-ip \
-  --storage-type=SSD \
-  --storage-size=10GB \
-  --storage-auto-increase \
-  --backup-start-time=03:00 \
-  --maintenance-window-day=SUN \
-  --maintenance-window-hour=4
-
-echo ">>> Instancia creada: $INSTANCE"
+INSTANCE_STATUS=$(gcloud sql instances describe "$INSTANCE" --format="value(state)" 2>/dev/null || echo "NOT_FOUND")
+if [[ "$INSTANCE_STATUS" == "NOT_FOUND" ]]; then
+  echo ">>> Creando instancia Cloud SQL: $INSTANCE (puede tardar 5-10 min)..."
+  gcloud sql instances create "$INSTANCE" \
+    --database-version=POSTGRES_15 \
+    --tier="$TIER" \
+    --region="$REGION" \
+    --assign-ip \
+    --storage-type=SSD \
+    --storage-size=10GB \
+    --storage-auto-increase \
+    --backup-start-time=03:00 \
+    --maintenance-window-day=SUN \
+    --maintenance-window-hour=4
+  echo ">>> Instancia creada: $INSTANCE"
+else
+  echo ">>> Instancia $INSTANCE ya existe (estado: $INSTANCE_STATUS), continuando..."
+fi
 
 # -----------------------------------------------------------------------------
 # 2. Crear bases de datos (una por servicio — ADR-001)
@@ -43,8 +47,7 @@ for DB in "${DBS[@]}"; do
   echo ">>> Creando base de datos: db_${DB}"
   gcloud sql databases create "db_${DB}" \
     --instance="$INSTANCE" \
-    --charset=UTF8 \
-    --collation=es_AR.UTF-8
+    --charset=UTF8
 done
 
 # -----------------------------------------------------------------------------
