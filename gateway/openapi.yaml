@@ -6,7 +6,7 @@ info:
     Cooperativas y Mutuales de la Provincia de Córdoba.
     Valida JWT de Google OAuth 2.0, redirige al microservicio correspondiente.
   version: "1.0.0"
-host: "ministerio-gateway-gestorcooperativo.us-central1.gateway.dev"
+host: "ministerio-gateway-3j5k00ma.uc.gateway.dev"
 schemes:
   - "https"
 produces:
@@ -15,21 +15,27 @@ consumes:
   - "application/json"
 
 # ---------------------------------------------------------------------------
-# Autenticación — Google OAuth 2.0
-# Nota: ambos sistemas (svc-privada existente y nuevos servicios) usan el mismo
-# issuer de Google, por lo que el token es compatible cross-service.
+# Autenticación — Firebase (producción) + Google accounts (tests/Cloud Shell)
 # ---------------------------------------------------------------------------
 securityDefinitions:
-  google:
+  firebase:
     authorizationUrl: ""
-    flow: implicit
-    type: oauth2
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "https://securetoken.google.com/gestorcooperativo"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "gestorcooperativo"
+  google_accounts:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
     x-google-issuer: "https://accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
     x-google-audiences: "gestorcooperativo"
 
 security:
-  - google: []
+  - firebase: []
+  - google_accounts: []
 
 # ---------------------------------------------------------------------------
 # Health check público (sin auth)
