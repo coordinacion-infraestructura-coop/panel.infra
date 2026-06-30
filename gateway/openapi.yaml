@@ -6,7 +6,7 @@ info:
     Cooperativas y Mutuales de la Provincia de Córdoba.
     Valida JWT de Google OAuth 2.0, redirige al microservicio correspondiente.
   version: "1.0.0"
-host: "ministerio-gateway-gestorcooperativo.southamerica-east1.gateway.dev"
+host: "ministerio-gateway-gestorcooperativo.us-central1.gateway.dev"
 schemes:
   - "https"
 produces:

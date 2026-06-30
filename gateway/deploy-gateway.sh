@@ -6,7 +6,7 @@
 set -euo pipefail
 
 PROJECT_ID="gestorcooperativo"
-REGION="southamerica-east1"
+REGION="us-central1"   # API Gateway no está disponible en southamerica-east1
 API_ID="ministerio-api"
 API_CONFIG_ID="ministerio-api-config-v1"
 GATEWAY_ID="ministerio-gateway"
