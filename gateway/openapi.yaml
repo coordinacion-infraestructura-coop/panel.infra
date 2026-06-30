@@ -40,6 +40,10 @@ paths:
       operationId: healthCheck
       summary: Health check del gateway
       security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
