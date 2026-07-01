@@ -37,10 +37,11 @@ security:
   - firebase: []
   - google_accounts: []
 
-# ---------------------------------------------------------------------------
-# Health check público (sin auth)
-# ---------------------------------------------------------------------------
 paths:
+
+  # ---------------------------------------------------------------------------
+  # Health check (público)
+  # ---------------------------------------------------------------------------
   /health:
     get:
       operationId: healthCheck
@@ -53,11 +54,21 @@ paths:
       responses:
         "200":
           description: OK
+    options:
+      operationId: corsHealth
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
-  # =========================================================================
+  # ===========================================================================
   # svc-privada — Sistema existente (proyecto: essential-haiku-482815-u4)
-  # Cloud Run: infraestructura-gestioninterna-354063050046.southamerica-east1.run.app
-  # =========================================================================
+  # ===========================================================================
 
   /api/v1/privada/me:
     get:
@@ -71,6 +82,17 @@ paths:
       responses:
         "200":
           description: Datos del usuario actual
+    options:
+      operationId: corsPrivadaMe
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/privada/gestiones:
     get:
@@ -90,7 +112,6 @@ paths:
         - in: query
           name: q
           type: string
-          description: Búsqueda full-text
         - in: query
           name: limit
           type: integer
@@ -117,6 +138,17 @@ paths:
       responses:
         "201":
           description: Gestión creada
+    options:
+      operationId: corsPrivadaGestiones
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/privada/gestiones/{gestion_id}:
     get:
@@ -151,6 +183,22 @@ paths:
       responses:
         "200":
           description: Gestión eliminada
+    options:
+      operationId: corsPrivadaGestionId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/privada/gestiones/{gestion_id}/cambiar-estado:
     post:
@@ -169,11 +217,27 @@ paths:
       responses:
         "200":
           description: Estado cambiado
+    options:
+      operationId: corsPrivadaCambiarEstado
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/privada/catalogos/{catalogo}:
     get:
       operationId: getCatalogo
-      summary: Obtener catálogo (estados, urgencias, ministerios, etc.)
+      summary: Obtener catálogo
       tags: [privada]
       parameters:
         - in: path
@@ -188,6 +252,22 @@ paths:
       responses:
         "200":
           description: Catálogo solicitado
+    options:
+      operationId: corsPrivadaCatalogos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: catalogo
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/privada/gestiones/resumen-territorial:
     get:
@@ -201,11 +281,79 @@ paths:
       responses:
         "200":
           description: Resumen territorial
+    options:
+      operationId: corsPrivadaResumenTerritorial
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: CONSTANT_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
 
-  # =========================================================================
-  # svc-vivienda — Secretaría de Vivienda (proyecto: gestorcooperativo)
-  # URL real se actualiza tras el primer deploy de Cloud Run
-  # =========================================================================
+  # ===========================================================================
+  # svc-vivienda — Secretaría de Vivienda
+  # ===========================================================================
+
+  /api/v1/vivienda/programas:
+    get:
+      operationId: listarProgramasVivienda
+      summary: Catálogo de programas habitacionales
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de programas
+    options:
+      operationId: corsProgramas
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/programas/{programa_id}/estadisticas:
+    get:
+      operationId: estadisticasPrograma
+      summary: Estadísticas de un programa habitacional
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Estadísticas del programa
+    options:
+      operationId: corsProgramaEstadisticas
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/beneficiarios:
     get:
@@ -242,6 +390,17 @@ paths:
       responses:
         "201":
           description: Beneficiario creado
+    options:
+      operationId: corsBeneficiarios
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/beneficiarios/buscar:
     get:
@@ -260,6 +419,17 @@ paths:
       responses:
         "200":
           description: Beneficiario encontrado
+    options:
+      operationId: corsBeneficiariosBuscar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/beneficiarios/{beneficiario_id}:
     get:
@@ -310,6 +480,22 @@ paths:
       responses:
         "200":
           description: Beneficiario eliminado
+    options:
+      operationId: corsBeneficiarioId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: beneficiario_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/expedientes:
     get:
@@ -349,6 +535,17 @@ paths:
       responses:
         "201":
           description: Expediente creado
+    options:
+      operationId: corsExpedientes
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/expedientes/{expediente_id}:
     get:
@@ -383,6 +580,22 @@ paths:
       responses:
         "200":
           description: Expediente actualizado
+    options:
+      operationId: corsExpedienteId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/expedientes/{expediente_id}/transicion:
     post:
@@ -401,6 +614,22 @@ paths:
       responses:
         "200":
           description: Estado cambiado
+    options:
+      operationId: corsExpedienteTransicion
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: expediente_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/expedientes/{expediente_id}/historial:
     get:
@@ -419,37 +648,22 @@ paths:
       responses:
         "200":
           description: Historial del expediente
-
-  /api/v1/vivienda/programas:
-    get:
-      operationId: listarProgramasVivienda
-      summary: Catálogo de programas habitacionales
-      tags: [vivienda]
-      x-google-backend:
-        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
-      responses:
-        "200":
-          description: Lista de programas
-
-  /api/v1/vivienda/programas/{programa_id}/estadisticas:
-    get:
-      operationId: estadisticasPrograma
-      summary: Estadísticas de un programa habitacional
-      tags: [vivienda]
+    options:
+      operationId: corsExpedienteHistorial
+      summary: CORS preflight
       parameters:
         - in: path
-          name: programa_id
+          name: expediente_id
           required: true
           type: string
+      security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Estadísticas del programa
+          description: OK
 
   /api/v1/vivienda/asignaciones:
     post:
@@ -474,11 +688,22 @@ paths:
       responses:
         "200":
           description: Lista de asignaciones
+    options:
+      operationId: corsAsignaciones
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/cordon-cuneta:
     get:
       operationId: listarMunicipiosCordonCuneta
-      summary: Panel completo de Cordón Cuneta (municipios, estados, presupuesto)
+      summary: Panel completo de Cordón Cuneta
       tags: [vivienda]
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -487,6 +712,17 @@ paths:
       responses:
         "200":
           description: Panel completo con municipios, estados y presupuesto
+    options:
+      operationId: corsCordonCuneta
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/cordon-cuneta/estados:
     get:
@@ -500,6 +736,17 @@ paths:
       responses:
         "200":
           description: Lista de estados
+    options:
+      operationId: corsCordonCunetaEstados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/cordon-cuneta/{municipio_id}:
     patch:
@@ -518,6 +765,22 @@ paths:
       responses:
         "200":
           description: Municipio actualizado
+    options:
+      operationId: corsCordonCunetaMunicipioId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/cordon-cuneta/{municipio_id}/pedidos:
     get:
@@ -552,6 +815,22 @@ paths:
       responses:
         "201":
           description: Pedido registrado
+    options:
+      operationId: corsCordonCunetaPedidos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
   /api/v1/vivienda/cordon-cuneta-config/presupuesto:
     patch:
@@ -565,10 +844,21 @@ paths:
       responses:
         "200":
           description: Presupuesto actualizado
+    options:
+      operationId: corsCordonCunetaPresupuesto
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
 
-  # =========================================================================
-  # Servicios futuros — se agregan tras reunión de área + implementación
-  # =========================================================================
+  # ===========================================================================
+  # Servicios futuros
+  # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
   # svc-territorial:     /api/v1/territorial/*
   # svc-gasifera:        /api/v1/gasifera/*
