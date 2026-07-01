@@ -832,6 +832,48 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/cordon-cuneta/{municipio_id}/pedidos/{pedido_id}:
+    delete:
+      operationId: eliminarPedidoMunicipio
+      summary: Eliminar una comunicación del historial de un municipio
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Pedido eliminado
+    options:
+      operationId: corsCordonCunetaPedidoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordon-cuneta-config/presupuesto:
     patch:
       operationId: actualizarPresupuestoCordonCuneta
