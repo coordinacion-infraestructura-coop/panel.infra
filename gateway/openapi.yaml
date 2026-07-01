@@ -77,7 +77,7 @@ paths:
       tags: [privada]
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -88,7 +88,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -122,7 +122,7 @@ paths:
           default: 0
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -133,7 +133,7 @@ paths:
       tags: [privada]
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "201":
@@ -144,7 +144,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -162,7 +162,7 @@ paths:
           type: string
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -178,7 +178,7 @@ paths:
           type: string
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -194,7 +194,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -212,7 +212,7 @@ paths:
           type: string
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -228,7 +228,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -247,7 +247,7 @@ paths:
           enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos]
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -263,7 +263,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -276,7 +276,7 @@ paths:
       tags: [privada]
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
@@ -287,7 +287,7 @@ paths:
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: CONSTANT_ADDRESS
+        path_translation: APPEND_PATH_TO_ADDRESS
         jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
       responses:
         "200":
