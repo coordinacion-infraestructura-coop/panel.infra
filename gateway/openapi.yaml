@@ -478,7 +478,7 @@ paths:
   /api/v1/vivienda/cordon-cuneta:
     get:
       operationId: listarMunicipiosCordonCuneta
-      summary: Listado de municipios del Programa Cordón Cuneta
+      summary: Panel completo de Cordón Cuneta (municipios, estados, presupuesto)
       tags: [vivienda]
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -486,7 +486,20 @@ paths:
         jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Lista de municipios con sus estados
+          description: Panel completo con municipios, estados y presupuesto
+
+  /api/v1/vivienda/cordon-cuneta/estados:
+    get:
+      operationId: listarEstadosCordonCuneta
+      summary: Lista de estados disponibles en Cordón Cuneta
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de estados
 
   /api/v1/vivienda/cordon-cuneta/{municipio_id}:
     patch:
@@ -506,10 +519,44 @@ paths:
         "200":
           description: Municipio actualizado
 
-  /api/v1/vivienda/cordon-cuneta/kpis:
+  /api/v1/vivienda/cordon-cuneta/{municipio_id}/pedidos:
     get:
-      operationId: kpisCordonCuneta
-      summary: KPIs agregados del Programa Cordón Cuneta
+      operationId: listarPedidosMunicipio
+      summary: Historial de comunicaciones de un municipio
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de pedidos/comunicaciones
+    post:
+      operationId: crearPedidoMunicipio
+      summary: Registrar nueva comunicación con un municipio
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Pedido registrado
+
+  /api/v1/vivienda/cordon-cuneta-config/presupuesto:
+    patch:
+      operationId: actualizarPresupuestoCordonCuneta
+      summary: Actualizar crédito presupuestario del programa
       tags: [vivienda]
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -517,7 +564,7 @@ paths:
         jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: KPIs del programa
+          description: Presupuesto actualizado
 
   # =========================================================================
   # Servicios futuros — se agregan tras reunión de área + implementación
