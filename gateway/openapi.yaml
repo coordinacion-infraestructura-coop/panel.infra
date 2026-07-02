@@ -1172,6 +1172,121 @@ paths:
           description: OK
 
   # ===========================================================================
+  # portal — Gestión de usuarios y permisos (svc-vivienda)
+  # ===========================================================================
+
+  /api/v1/portal/me:
+    get:
+      operationId: getPortalMe
+      summary: Perfil del usuario actual (rol + secretarías)
+      tags: [portal]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Perfil del usuario
+        "403":
+          description: Usuario no registrado en el sistema
+    options:
+      operationId: corsPortalMe
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/portal/admin/usuarios:
+    get:
+      operationId: listarPortalUsuarios
+      summary: Lista todos los usuarios del portal (Admin)
+      tags: [portal]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      operationId: crearPortalUsuario
+      summary: Crear usuario del portal (Admin)
+      tags: [portal]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Usuario creado
+    options:
+      operationId: corsPortalAdminUsuarios
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/portal/admin/usuarios/{email}:
+    get:
+      operationId: getPortalUsuario
+      summary: Detalle de usuario del portal (Admin)
+      tags: [portal]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Detalle del usuario
+    put:
+      operationId: actualizarPortalUsuario
+      summary: Actualizar usuario del portal (Admin)
+      tags: [portal]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Usuario actualizado
+    options:
+      operationId: corsPortalAdminUsuarioEmail
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
