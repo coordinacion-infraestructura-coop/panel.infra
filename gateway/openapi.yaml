@@ -104,6 +104,18 @@ paths:
           name: estado
           type: string
         - in: query
+          name: ministerio
+          type: string
+        - in: query
+          name: categoria
+          type: string
+        - in: query
+          name: tipo_gestion
+          type: string
+        - in: query
+          name: canal_origen
+          type: string
+        - in: query
           name: departamento
           type: string
         - in: query
@@ -244,7 +256,13 @@ paths:
           name: catalogo
           required: true
           type: string
-          enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos]
+          enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos, localidades, modulos, geo]
+        - in: query
+          name: departamento
+          type: string
+        - in: query
+          name: localidad
+          type: string
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
@@ -258,6 +276,40 @@ paths:
       parameters:
         - in: path
           name: catalogo
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/gestiones/{gestion_id}/eventos:
+    get:
+      operationId: listarEventosGestion
+      summary: Historial de eventos de una gestión
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Lista de eventos
+    options:
+      operationId: corsPrivadaGestionEventos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: gestion_id
           required: true
           type: string
       security: []
@@ -284,6 +336,227 @@ paths:
     options:
       operationId: corsPrivadaResumenTerritorial
       summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/localidades-info:
+    get:
+      operationId: getLocalidadInfo
+      summary: Ficha de información de una localidad
+      tags: [privada]
+      parameters:
+        - in: query
+          name: departamento
+          required: true
+          type: string
+        - in: query
+          name: localidad
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Ficha de la localidad
+    put:
+      operationId: upsertLocalidadInfo
+      summary: Actualizar ficha de información de una localidad
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Ficha actualizada
+    options:
+      operationId: corsPrivadaLocalidadInfo
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/usuarios:
+    get:
+      operationId: listarUsuarios
+      summary: Lista de usuarios del sistema (Admin)
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      operationId: crearUsuario
+      summary: Crear usuario (Admin)
+      tags: [privada]
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Usuario creado
+    options:
+      operationId: corsPrivadaUsuarios
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/usuarios/{email}:
+    put:
+      operationId: actualizarUsuario
+      summary: Actualizar usuario (Admin)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Usuario actualizado
+    delete:
+      operationId: deshabilitarUsuario
+      summary: Deshabilitar usuario (Admin)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Usuario deshabilitado
+    options:
+      operationId: corsPrivadaUsuarioEmail
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/usuarios/{email}/modulos:
+    get:
+      operationId: getUsuarioModulos
+      summary: Módulos habilitados para un usuario (Admin)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Lista de módulos
+    post:
+      operationId: agregarUsuarioModulo
+      summary: Habilitar módulo para usuario (Admin)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "201":
+          description: Módulo habilitado
+    options:
+      operationId: corsPrivadaUsuarioModulos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/usuarios/{email}/modulos/{modulo}:
+    delete:
+      operationId: quitarUsuarioModulo
+      summary: Deshabilitar módulo para usuario (Admin)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+        - in: path
+          name: modulo
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Módulo deshabilitado
+    options:
+      operationId: corsPrivadaUsuarioModuloId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+        - in: path
+          name: modulo
+          required: true
+          type: string
       security: []
       x-google-backend:
         address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
