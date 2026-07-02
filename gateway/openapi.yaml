@@ -1172,6 +1172,208 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-vivienda — Córdoba Hogar
+  # ===========================================================================
+
+  /api/v1/vivienda/cordoba-hogar:
+    get:
+      operationId: listarLocalidadesCordobaHogar
+      summary: Panel completo de Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Panel completo con localidades, estados y presupuesto
+    options:
+      operationId: corsCordobaHogar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/estados:
+    get:
+      operationId: listarEstadosCordobaHogar
+      summary: Lista de estados disponibles en Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de estados
+    options:
+      operationId: corsCordobaHogarEstados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/{localidad_id}:
+    patch:
+      operationId: actualizarLocalidadCordobaHogar
+      summary: Actualizar estado de una localidad en Córdoba Hogar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Localidad actualizada
+    options:
+      operationId: corsCordobaHogarLocalidadId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/{localidad_id}/pedidos:
+    get:
+      operationId: listarPedidosLocalidad
+      summary: Historial de comunicaciones de una localidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de pedidos/comunicaciones
+    post:
+      operationId: crearPedidoLocalidad
+      summary: Registrar nueva comunicación con una localidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Pedido registrado
+    options:
+      operationId: corsCordobaHogarPedidos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/{localidad_id}/pedidos/{pedido_id}:
+    delete:
+      operationId: eliminarPedidoLocalidad
+      summary: Eliminar una comunicación del historial de una localidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Pedido eliminado
+    options:
+      operationId: corsCordobaHogarPedidoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar-config/presupuesto:
+    patch:
+      operationId: actualizarPresupuestoCordobaHogar
+      summary: Actualizar crédito presupuestario del programa Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Presupuesto actualizado
+    options:
+      operationId: corsCordobaHogarPresupuesto
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # portal — Gestión de usuarios y permisos (svc-vivienda)
   # ===========================================================================
 
