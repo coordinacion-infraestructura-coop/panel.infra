@@ -5,7 +5,7 @@ info:
     API Gateway centralizado para todos los servicios del Ministerio de
     Cooperativas y Mutuales de la Provincia de Córdoba.
     Valida JWT de Google OAuth 2.0, redirige al microservicio correspondiente.
-  version: "1.0.0"
+  version: "1.0.0.1"
 host: "ministerio-gateway-3j5k00ma.uc.gateway.dev"
 schemes:
   - "https"
