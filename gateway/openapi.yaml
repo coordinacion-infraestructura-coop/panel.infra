@@ -985,6 +985,17 @@ paths:
       responses:
         "200":
           description: Panel completo con municipios, estados y presupuesto
+    post:
+      operationId: crearMunicipioCordonCuneta
+      summary: Agregar nuevo municipio al panel de Cordón Cuneta
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Municipio creado
     options:
       operationId: corsCordonCuneta
       summary: CORS preflight
@@ -1009,8 +1020,93 @@ paths:
       responses:
         "200":
           description: Lista de estados
+    post:
+      operationId: crearEstadoCordonCuneta
+      summary: Crear nuevo estado en el catálogo de Cordón Cuneta (Supervisor)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Estado creado
     options:
       operationId: corsCordonCunetaEstados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordon-cuneta/estados/{estado_id}:
+    patch:
+      operationId: actualizarEstadoCordonCuneta
+      summary: Actualizar estado del catálogo de Cordón Cuneta (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Estado actualizado
+    delete:
+      operationId: eliminarEstadoCordonCuneta
+      summary: Eliminar estado del catálogo de Cordón Cuneta (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Estado eliminado
+    options:
+      operationId: corsCordonCunetaEstadoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordon-cuneta/geo:
+    get:
+      operationId: listarGeoCordonCuneta
+      summary: Listado de localidades geográficas para Cordón Cuneta
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de localidades geográficas
+    options:
+      operationId: corsCordonCunetaGeo
       summary: CORS preflight
       security: []
       x-google-backend:
@@ -1038,8 +1134,58 @@ paths:
       responses:
         "200":
           description: Municipio actualizado
+    delete:
+      operationId: eliminarMunicipioCordonCuneta
+      summary: Soft delete de un municipio (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Municipio eliminado
     options:
       operationId: corsCordonCunetaMunicipioId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordon-cuneta/{municipio_id}/historial:
+    get:
+      operationId: historialMunicipioCordonCuneta
+      summary: Historial de cambios de estado de un municipio
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: municipio_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Historial de estados
+    options:
+      operationId: corsCordonCunetaHistorial
       summary: CORS preflight
       parameters:
         - in: path
@@ -1187,6 +1333,17 @@ paths:
       responses:
         "200":
           description: Panel completo con localidades, estados y presupuesto
+    post:
+      operationId: crearLocalidadCordobaHogar
+      summary: Agregar nueva localidad al panel de Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Localidad creada
     options:
       operationId: corsCordobaHogar
       summary: CORS preflight
@@ -1211,8 +1368,93 @@ paths:
       responses:
         "200":
           description: Lista de estados
+    post:
+      operationId: crearEstadoCordobaHogar
+      summary: Crear nuevo estado en el catálogo de Córdoba Hogar (Supervisor)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Estado creado
     options:
       operationId: corsCordobaHogarEstados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/estados/{estado_id}:
+    patch:
+      operationId: actualizarEstadoCordobaHogar
+      summary: Actualizar estado del catálogo de Córdoba Hogar (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Estado actualizado
+    delete:
+      operationId: eliminarEstadoCordobaHogar
+      summary: Eliminar estado del catálogo de Córdoba Hogar (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Estado eliminado
+    options:
+      operationId: corsCordobaHogarEstadoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/geo:
+    get:
+      operationId: listarGeoCordobaHogar
+      summary: Listado de localidades geográficas para Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de localidades geográficas
+    options:
+      operationId: corsCordobaHogarGeo
       summary: CORS preflight
       security: []
       x-google-backend:
@@ -1240,8 +1482,58 @@ paths:
       responses:
         "200":
           description: Localidad actualizada
+    delete:
+      operationId: eliminarLocalidadCordobaHogar
+      summary: Soft delete de una localidad (Supervisor)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Localidad eliminada
     options:
       operationId: corsCordobaHogarLocalidadId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/{localidad_id}/historial:
+    get:
+      operationId: historialLocalidadCordobaHogar
+      summary: Historial de cambios de estado de una localidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: localidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Historial de estados
+    options:
+      operationId: corsCordobaHogarHistorial
       summary: CORS preflight
       parameters:
         - in: path
