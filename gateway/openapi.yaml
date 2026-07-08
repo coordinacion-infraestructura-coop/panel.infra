@@ -1665,6 +1665,30 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/cordoba-hogar-config/monto-por-casa:
+    patch:
+      operationId: actualizarMontoPorCasaCordobaHogar
+      summary: Actualizar monto por casa del programa Córdoba Hogar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Monto por casa actualizado
+    options:
+      operationId: corsCordobaHogarMontoPorCasa
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   # ===========================================================================
   # portal — Gestión de usuarios y permisos (svc-vivienda)
   # ===========================================================================
