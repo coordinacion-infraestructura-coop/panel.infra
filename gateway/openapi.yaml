@@ -1201,6 +1201,54 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/cordon-cuneta-checklist-tecnico/estado:
+    get:
+      operationId: estadoSyncChecklistTecnicoCC
+      summary: Estado de la última corrida del sync del checklist técnico
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Estado del último sync (o null si nunca corrió)
+    options:
+      operationId: corsCordonCunetaChecklistTecnicoEstado
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordon-cuneta-checklist-tecnico/sync:
+    post:
+      operationId: forzarSyncChecklistTecnicoCC
+      summary: Dispara el sync del checklist técnico ahora, sin esperar al Scheduler
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Resultado del sync
+    options:
+      operationId: corsCordonCunetaChecklistTecnicoSync
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordon-cuneta/{municipio_id}/checklist-tecnico:
     get:
       operationId: checklistTecnicoMunicipio
