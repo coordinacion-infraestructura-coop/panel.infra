@@ -1869,6 +1869,22 @@ paths:
       responses:
         "200":
           description: Usuario actualizado
+    delete:
+      operationId: eliminarPortalUsuario
+      summary: Eliminar usuario del portal (Admin)
+      tags: [portal]
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Usuario eliminado
     options:
       operationId: corsPortalAdminUsuarioEmail
       summary: CORS preflight
