@@ -594,6 +594,40 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/programas/{programa_id}:
+    get:
+      operationId: getProgramaVivienda
+      summary: Detalle de un programa habitacional
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Detalle del programa
+    options:
+      operationId: corsProgramaId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/programas/{programa_id}/estadisticas:
     get:
       operationId: estadisticasPrograma
@@ -964,6 +998,40 @@ paths:
     options:
       operationId: corsAsignaciones
       summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/asignaciones/{asignacion_id}:
+    patch:
+      operationId: actualizarAsignacionVivienda
+      summary: Actualizar una asignación
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: asignacion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Asignación actualizada
+    options:
+      operationId: corsAsignacionId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: asignacion_id
+          required: true
+          type: string
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
