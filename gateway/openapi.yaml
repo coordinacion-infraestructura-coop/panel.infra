@@ -1269,6 +1269,102 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/cordon-cuneta/informe:
+    get:
+      operationId: getInformeCordonCuneta
+      summary: Último informe calculado de Cordón Cuneta (o null si nunca se calculó)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot del informe (o null)
+    options:
+      operationId: corsCordonCunetaInforme
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordon-cuneta/informe/actualizar:
+    post:
+      operationId: actualizarInformeCordonCuneta
+      summary: Recalcula el informe de Cordón Cuneta ahora y guarda un snapshot nuevo
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot recién calculado
+    options:
+      operationId: corsCordonCunetaInformeActualizar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/informe:
+    get:
+      operationId: getInformeCordobaHogar
+      summary: Último informe calculado de Córdoba Hogar (o null si nunca se calculó)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot del informe (o null)
+    options:
+      operationId: corsCordobaHogarInforme
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/cordoba-hogar/informe/actualizar:
+    post:
+      operationId: actualizarInformeCordobaHogar
+      summary: Recalcula el informe de Córdoba Hogar ahora y guarda un snapshot nuevo
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot recién calculado
+    options:
+      operationId: corsCordobaHogarInformeActualizar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordon-cuneta-checklist-tecnico/estado:
     get:
       operationId: estadoSyncChecklistTecnicoCC
