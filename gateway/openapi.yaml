@@ -2067,6 +2067,357 @@ paths:
           description: OK
 
   # ===========================================================================
+  # Mi Lugar — Adquisición de Tierras (svc-vivienda)
+  # ===========================================================================
+
+  /api/v1/vivienda/mi-lugar/estados:
+    get:
+      operationId: listarEstadosML
+      summary: Catálogo de estados Mi Lugar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearEstadoML
+      summary: Crear estado Mi Lugar (Supervisor+)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Estado creado
+    options:
+      operationId: corsMLEstados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/estados/{estado_id}:
+    patch:
+      operationId: actualizarEstadoML
+      summary: Actualizar estado Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: eliminarEstadoML
+      summary: Eliminar estado Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "204":
+          description: Eliminado
+    options:
+      operationId: corsMLEstadoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/proyectos:
+    get:
+      operationId: listarProyectosML
+      summary: Listar proyectos Mi Lugar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearProyectoML
+      summary: Crear proyecto Mi Lugar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Proyecto creado
+    options:
+      operationId: corsMLProyectos
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}:
+    get:
+      operationId: getProyectoML
+      summary: Detalle de proyecto Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: actualizarProyectoML
+      summary: Actualizar proyecto Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: eliminarProyectoML
+      summary: Eliminar proyecto Mi Lugar (soft delete)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsMLProyectoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}/historial:
+    get:
+      operationId: historialProyectoML
+      summary: Historial de estados de un proyecto Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsMLProyectoHistorial
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}/pedidos:
+    get:
+      operationId: listarPedidosML
+      summary: Comunicaciones de un proyecto Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearPedidoML
+      summary: Crear comunicación Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Comunicación creada
+    options:
+      operationId: corsMLProyectoPedidos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}/pedidos/{pedido_id}:
+    delete:
+      operationId: eliminarPedidoML
+      summary: Eliminar comunicación Mi Lugar
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsMLPedidoId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+        - in: path
+          name: pedido_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/mi-lugar-config:
+    get:
+      operationId: obtenerConfigML
+      summary: Obtener parámetros financieros Mi Lugar
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: actualizarConfigML
+      summary: Actualizar parámetros financieros Mi Lugar (Supervisor+)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsMLConfig
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
