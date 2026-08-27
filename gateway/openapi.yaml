@@ -2418,6 +2418,267 @@ paths:
           description: OK
 
   # ===========================================================================
+  # Checklist Técnico DGV (svc-vivienda) — ver docs/files/spec-checklist-tecnico-dgv.md
+  # ===========================================================================
+
+  /api/v1/vivienda/checklist-tecnico/catalogos:
+    get:
+      operationId: getCatalogosChecklistTecnico
+      summary: Catálogos del checklist técnico (estados, reparticiones, ítems por programa)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsChecklistCatalogos
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}:
+    get:
+      operationId: getChecklistTecnico
+      summary: Checklist técnico de una entidad (crea la fila on-the-fly si no existe)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    patch:
+      operationId: actualizarChecklistTecnico
+      summary: Actualizar estado del expediente / fecha de radicación / repartición
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsChecklistTecnico
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}/items/{item_num}:
+    patch:
+      operationId: actualizarItemChecklistTecnico
+      summary: Actualizar el valor de un ítem (o sub-ítem) del checklist
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+        - in: path
+          name: item_num
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsChecklistTecnicoItem
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}/hitos/{tipo}:
+    patch:
+      operationId: actualizarHitoChecklistTecnico
+      summary: Actualizar fecha de acreditación de un hito de obra (solo Cordón Cuneta)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+        - in: path
+          name: tipo
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsChecklistTecnicoHito
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/admin/estado-expediente:
+    post:
+      operationId: crearEstadoExpedienteChecklist
+      summary: Crear estado del expediente (catálogo, Admin)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Estado creado
+    options:
+      operationId: corsEstadoExpedienteChecklist
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/admin/estado-expediente/{estado_id}:
+    patch:
+      operationId: actualizarEstadoExpedienteChecklist
+      summary: Actualizar estado del expediente (catálogo, Admin)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsEstadoExpedienteChecklistId
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/admin/reparticion:
+    post:
+      operationId: crearReparticionChecklist
+      summary: Crear repartición (catálogo, Admin)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Repartición creada
+    options:
+      operationId: corsReparticionChecklist
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/admin/reparticion/{reparticion_id}:
+    patch:
+      operationId: actualizarReparticionChecklist
+      summary: Actualizar repartición (catálogo, Admin)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: reparticion_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsReparticionChecklistId
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
