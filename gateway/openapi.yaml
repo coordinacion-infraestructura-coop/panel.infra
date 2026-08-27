@@ -2489,6 +2489,15 @@ paths:
     options:
       operationId: corsChecklistTecnico
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -2526,6 +2535,19 @@ paths:
     options:
       operationId: corsChecklistTecnicoItem
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+        - in: path
+          name: item_num
+          required: true
+          type: integer
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -2563,6 +2585,19 @@ paths:
     options:
       operationId: corsChecklistTecnicoHito
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+        - in: path
+          name: tipo
+          required: true
+          type: string
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -2616,6 +2651,11 @@ paths:
     options:
       operationId: corsEstadoExpedienteChecklistId
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: estado_id
+          required: true
+          type: integer
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
@@ -2669,6 +2709,11 @@ paths:
     options:
       operationId: corsReparticionChecklistId
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: reparticion_id
+          required: true
+          type: integer
       security: []
       x-google-backend:
         address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
