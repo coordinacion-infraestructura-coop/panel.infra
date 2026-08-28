@@ -1317,6 +1317,57 @@ paths:
         "200":
           description: OK
 
+  # ── Resumen Territorial — panel transversal (Vivienda CC/CH/ML + Sec. Privada) ──
+  # Servido por svc-vivienda con prefijo /api/v1 (no /vivienda), igual que portal.
+  # Spec: docs/files/spec-resumen-territorial.md §8
+  /api/v1/resumen-territorial:
+    get:
+      operationId: getResumenTerritorial
+      summary: Último Resumen Territorial calculado, filtrado por la visibilidad del usuario (o null)
+      tags: [resumen-territorial]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot del resumen (o null)
+    options:
+      operationId: corsResumenTerritorial
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/resumen-territorial/actualizar:
+    post:
+      operationId: actualizarResumenTerritorial
+      summary: Recalcula el Resumen Territorial ahora y guarda un snapshot nuevo
+      tags: [resumen-territorial]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Snapshot recién calculado
+    options:
+      operationId: corsResumenTerritorialActualizar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordoba-hogar/informe:
     get:
       operationId: getInformeCordobaHogar
