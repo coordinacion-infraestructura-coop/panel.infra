@@ -124,9 +124,9 @@ npm run build && firebase deploy --only hosting --project gestorcooperativo
 - El endpoint interno `POST /internal/resumen-territorial/actualizar` **no** está en
   `openapi.yaml` a propósito — sólo lo alcanza Cloud Scheduler por IAM (mismo patrón que
   `/internal/sync/cordon-cuneta-checklist`).
-- El fetch de Privada (`fetch_privada_lineas`) es **tolerante**: si el gateway/svc-privada no
-  responde o la forma no es la esperada, el snapshot se guarda sólo con Vivienda y
-  `generado_para_areas` no incluye `"privada"`. Revisar los logs de Cloud Run
-  (`resumen_territorial: fetch de Privada falló`) tras la primera corrida para confirmar el
-  contrato real del endpoint `/api/v1/privada/gestiones/resumen-territorial` y ajustar
-  `_map_privada_payload` si hace falta.
+- **Privada la federa el frontend** con el token del usuario (`privadaGestiones.ts` pagina
+  `GET /api/v1/privada/gestiones/`). El snapshot del backend es sólo Vivienda. El fetch
+  server-a-servidor (`fetch_privada_lineas`) está detrás de `settings.privada_fetch_enabled`
+  (default `False`) — no se activa porque svc-privada rechaza el ID token de la SA. Para que un
+  usuario vea las líneas de Privada tiene que estar dado de alta en `usuarios_roles` de
+  svc-privada (además de tener `privada` en sus secretarías del portal, o ser `Admin`/`Autoridad`).
