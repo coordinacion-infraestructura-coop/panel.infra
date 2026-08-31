@@ -2496,6 +2496,92 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/checklist-tecnico/entidades:
+    get:
+      operationId: listarEntidadesChecklistTecnico
+      summary: Selector de localidad/programa (accesible a TecnicoDGV, a diferencia de los paneles completos)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsChecklistEntidades
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}/pedidos:
+    get:
+      operationId: listarPedidosChecklistTecnico
+      summary: Observaciones de una entidad (vía módulo checklist, accesible a TecnicoDGV)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearPedidoChecklistTecnico
+      summary: Agregar una observación a una entidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Created
+    options:
+      operationId: corsChecklistPedidos
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}:
     get:
       operationId: getChecklistTecnico
