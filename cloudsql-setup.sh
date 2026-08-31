@@ -41,13 +41,18 @@ fi
 # -----------------------------------------------------------------------------
 # 2. Crear bases de datos (una por servicio — ADR-001)
 # -----------------------------------------------------------------------------
-DBS=(vivienda infraestructura territorial gasifera desarrollo)
+# `privada` agregada 2026-08-31 (ADR-008: migración de svc-privada a PostgreSQL).
+DBS=(vivienda infraestructura territorial gasifera desarrollo privada)
 
 for DB in "${DBS[@]}"; do
-  echo ">>> Creando base de datos: db_${DB}"
-  gcloud sql databases create "db_${DB}" \
-    --instance="$INSTANCE" \
-    --charset=UTF8
+  if gcloud sql databases describe "db_${DB}" --instance="$INSTANCE" >/dev/null 2>&1; then
+    echo ">>> db_${DB} ya existe, se omite"
+  else
+    echo ">>> Creando base de datos: db_${DB}"
+    gcloud sql databases create "db_${DB}" \
+      --instance="$INSTANCE" \
+      --charset=UTF8
+  fi
 done
 
 # -----------------------------------------------------------------------------
@@ -55,6 +60,10 @@ done
 # -----------------------------------------------------------------------------
 echo ">>> Creando usuarios de base de datos..."
 for SVC in "${DBS[@]}"; do
+  if gcloud sql users list --instance="$INSTANCE" --format="value(name)" | grep -qx "user_${SVC}"; then
+    echo ">>> user_${SVC} ya existe, se omite (secret y binding no se tocan)"
+    continue
+  fi
   PASSWORD=$(openssl rand -base64 32)
   echo ">>> Creando usuario: user_${SVC}"
   gcloud sql users create "user_${SVC}" \
