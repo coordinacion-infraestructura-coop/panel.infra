@@ -55,12 +55,16 @@ echo "$DATABASE_URL"   # anotalo por si abrís otra terminal
 ~/cloud-sql-proxy "$CONN" --port 5432 > /tmp/proxy_privada.log 2>&1 &
 sleep 4 && cat /tmp/proxy_privada.log   # "Listening on 127.0.0.1:5432"
 
-# B.2 — código + deps
+# B.2 — código + deps EN UN VENV (Cloud Shell trae un entorno global enorme de
+#        tooling de IA de Google; instalar ahí downgradea pydantic/httpx/google-auth
+#        y rompe esas CLIs. El venv lo aísla.)
 cd ~/gestorcooperativo/backend/svc-privada
 git pull origin main
+python3 -m venv .venv
+source .venv/bin/activate           # <- reactivar con esto si abrís otra terminal
 pip install -e ".[dev,etl]"
 
-# B.3 — aplicar (DATABASE_URL ya exportado en A.5)
+# B.3 — aplicar (DATABASE_URL ya exportado en A.5, con el venv activo)
 python -m alembic upgrade head
 python -m alembic current      # debe mostrar: 0001 (head)
 ```
@@ -71,6 +75,7 @@ python -m alembic current      # debe mostrar: 0001 (head)
 
 ```bash
 cd ~/gestorcooperativo/backend/svc-privada
+source .venv/bin/activate            # el venv de la Fase B
 export BQ_PROJECT=essential-haiku-482815-u4
 
 # C.1 — dry-run (no escribe): validar el reporte de conteos
