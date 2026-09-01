@@ -76,9 +76,9 @@ paths:
       summary: Usuario actual del sistema de gestiones
       tags: [privada]
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Datos del usuario actual
@@ -87,9 +87,9 @@ paths:
       summary: CORS preflight
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -133,9 +133,9 @@ paths:
           type: integer
           default: 0
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Lista de gestiones
@@ -144,9 +144,9 @@ paths:
       summary: Crear nueva gestión
       tags: [privada]
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "201":
           description: Gestión creada
@@ -155,9 +155,58 @@ paths:
       summary: CORS preflight
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # rollup/resumen ANTES de /{gestion_id} — ESPv2 podría capturar el segmento literal como {gestion_id}
+  /api/v1/privada/gestiones/rollup-territorial:
+    get:
+      operationId: rollupTerritorialPrivada
+      summary: Rollup global por departamento y localidad
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Rollup territorial
+    options:
+      operationId: corsPrivadaRollupTerritorial
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/gestiones/resumen-territorial:
+    get:
+      operationId: resumenTerritorialPrivada
+      summary: Resumen por departamento y localidad
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Resumen territorial
+    options:
+      operationId: corsPrivadaResumenTerritorial
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -173,9 +222,9 @@ paths:
           required: true
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Detalle de la gestión
@@ -189,12 +238,28 @@ paths:
           required: true
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Gestión eliminada
+    patch:
+      operationId: editarGestion
+      summary: Editar campos de una gestión (sin cambio de estado)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Gestión actualizada
     options:
       operationId: corsPrivadaGestionId
       summary: CORS preflight
@@ -205,9 +270,9 @@ paths:
           type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -223,9 +288,9 @@ paths:
           required: true
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Estado cambiado
@@ -239,9 +304,9 @@ paths:
           type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -256,7 +321,7 @@ paths:
           name: catalogo
           required: true
           type: string
-          enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos, localidades, modulos, geo]
+          enum: [estados, urgencias, ministerios, categorias, tipos-gestion, canales-origen, departamentos, localidades, geo]
         - in: query
           name: departamento
           type: string
@@ -264,9 +329,9 @@ paths:
           name: localidad
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Catálogo solicitado
@@ -280,9 +345,9 @@ paths:
           type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -298,9 +363,9 @@ paths:
           required: true
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Lista de eventos
@@ -314,33 +379,38 @@ paths:
           type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
 
-  /api/v1/privada/gestiones/resumen-territorial:
+  /api/v1/privada/departamentos-info:
     get:
-      operationId: resumenTerritorialPrivada
-      summary: Resumen por departamento y localidad
+      operationId: getDepartamentoInfo
+      summary: Ficha de información de un departamento (read-only)
       tags: [privada]
+      parameters:
+        - in: query
+          name: departamento
+          required: true
+          type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Resumen territorial
+          description: Ficha del departamento
     options:
-      operationId: corsPrivadaResumenTerritorial
+      operationId: corsPrivadaDepartamentoInfo
       summary: CORS preflight
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
@@ -360,9 +430,9 @@ paths:
           required: true
           type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Ficha de la localidad
@@ -371,9 +441,9 @@ paths:
       summary: Actualizar ficha de información de una localidad
       tags: [privada]
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: Ficha actualizada
@@ -382,186 +452,105 @@ paths:
       summary: CORS preflight
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
 
-  /api/v1/privada/usuarios:
+  /api/v1/privada/informe/cooperativas/resumen:
     get:
-      operationId: listarUsuarios
-      summary: Lista de usuarios del sistema (Admin)
+      operationId: informeCoopResumen
+      summary: Informe de Cooperativas — KPIs por tema
       tags: [privada]
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Lista de usuarios
-    post:
-      operationId: crearUsuario
-      summary: Crear usuario (Admin)
-      tags: [privada]
-      x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-      responses:
-        "200":
-          description: Usuario creado
+          description: OK
     options:
-      operationId: corsPrivadaUsuarios
+      operationId: corsPrivadaInformeCoopResumen
       summary: CORS preflight
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
 
-  /api/v1/privada/usuarios/{email}:
-    put:
-      operationId: actualizarUsuario
-      summary: Actualizar usuario (Admin)
-      tags: [privada]
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-      x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-      responses:
-        "200":
-          description: Usuario actualizado
-    delete:
-      operationId: deshabilitarUsuario
-      summary: Deshabilitar usuario (Admin)
-      tags: [privada]
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-      x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-      responses:
-        "200":
-          description: Usuario deshabilitado
-    options:
-      operationId: corsPrivadaUsuarioEmail
-      summary: CORS preflight
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-      security: []
-      x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-      responses:
-        "200":
-          description: OK
-
-  /api/v1/privada/usuarios/{email}/modulos:
+  /api/v1/privada/informe/cooperativas/temporal:
     get:
-      operationId: getUsuarioModulos
-      summary: Módulos habilitados para un usuario (Admin)
+      operationId: informeCoopTemporal
+      summary: Informe de Cooperativas — evolución mensual
       tags: [privada]
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Lista de módulos
-    post:
-      operationId: agregarUsuarioModulo
-      summary: Habilitar módulo para usuario (Admin)
-      tags: [privada]
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-      x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-        path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
-      responses:
-        "201":
-          description: Módulo habilitado
+          description: OK
     options:
-      operationId: corsPrivadaUsuarioModulos
+      operationId: corsPrivadaInformeCoopTemporal
       summary: CORS preflight
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
 
-  /api/v1/privada/usuarios/{email}/modulos/{modulo}:
-    delete:
-      operationId: quitarUsuarioModulo
-      summary: Deshabilitar módulo para usuario (Admin)
+  /api/v1/privada/informe/cooperativas/por-departamento:
+    get:
+      operationId: informeCoopPorDepartamento
+      summary: Informe de Cooperativas — tema x departamento
       tags: [privada]
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-        - in: path
-          name: modulo
-          required: true
-          type: string
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
-          description: Módulo deshabilitado
+          description: OK
     options:
-      operationId: corsPrivadaUsuarioModuloId
+      operationId: corsPrivadaInformeCoopPorDepto
       summary: CORS preflight
-      parameters:
-        - in: path
-          name: email
-          required: true
-          type: string
-        - in: path
-          name: modulo
-          required: true
-          type: string
       security: []
       x-google-backend:
-        address: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
         path_translation: APPEND_PATH_TO_ADDRESS
-        jwt_audience: "https://infraestructura-gestioninterna-354063050046.southamerica-east1.run.app"
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/informe/cooperativas/puntos:
+    get:
+      operationId: informeCoopPuntos
+      summary: Informe de Cooperativas — puntos para el mapa
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaInformeCoopPuntos
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
       responses:
         "200":
           description: OK
