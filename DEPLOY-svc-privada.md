@@ -189,7 +189,51 @@ por SQL directo contra `db_vivienda` con el proxy, o un script. Cada uno con sec
 
 ---
 
+## §E5a — Federación server-side de Privada en Resumen Territorial (ADR-016)
+
+Código en `panel.backend` `2f48a55` + `panel.front` `6791757`. Reemplaza el merge client-side
+(`privadaGestiones.ts`) por líneas de Privada en el snapshot server-side de `resumen_territorial`.
+
+```bash
+gcloud config set project gestorcooperativo
+VIV_SA="svc-vivienda@gestorcooperativo.iam.gserviceaccount.com"
+PRIVADA_URL="https://svc-privada-iwni7vc2qq-rj.a.run.app"
+
+# 1. la SA de svc-vivienda puede invocar svc-privada (para el endpoint interno)
+gcloud run services add-iam-policy-binding svc-privada --region=southamerica-east1 \
+  --member="serviceAccount:${VIV_SA}" --role="roles/run.invoker"
+
+# 2. redeploy de svc-privada (trae GET /internal/privada/rollup-territorial)
+cd ~/gestorcooperativo/backend && git pull origin main
+gcloud builds submit --config=cloudbuild.yaml \
+  --substitutions=_SERVICE=svc-privada,_SVC_VIVIENDA_INTERNAL_URL=https://svc-vivienda-iwni7vc2qq-rj.a.run.app
+
+# 3. redeploy de svc-vivienda con la federación server-side encendida
+gcloud builds submit --config=cloudbuild.yaml \
+  --substitutions=_SERVICE=svc-vivienda,_PRIVADA_FETCH_ENABLED=true,_SVC_PRIVADA_INTERNAL_URL=${PRIVADA_URL}
+
+# 4. frontend: build con el flag y deploy
+#    en frontend/.env.production agregar: VITE_PRIVADA_SERVER_FEDERATION=true
+cd ~/gestorcooperativo/frontend && git pull origin main
+npm run build && firebase deploy --only hosting
+
+# 5. recomputar el snapshot y verificar
+GW="https://ministerio-gateway-3j5k00ma.uc.gateway.dev"
+curl -s -X POST "$GW/api/v1/resumen-territorial/actualizar" -H "Authorization: Bearer $TOKEN"
+curl -s "$GW/api/v1/resumen-territorial" -H "Authorization: Bearer $TOKEN" | python3 -m json.tool | grep -A3 generado_para_areas
+#   debe incluir "privada"; las líneas privada NO deben aparecer duplicadas
+```
+
+**Rollback**: redeploy svc-vivienda con `_PRIVADA_FETCH_ENABLED=false` y frontend sin el flag
+(`VITE_PRIVADA_SERVER_FEDERATION` fuera de `.env.production`) → vuelve al merge client-side.
+
+## §7 — Tablero nativo (gate del decommission de BigQuery)
+
+`TableroPage.tsx` ya es nativo (`panel.front` `6791757`) — sale con el deploy normal del frontend.
+Antes de apagar BigQuery: comparar KPIs del tablero nuevo contra el Looker `f9dc4a4e-…` para un
+rango de fechas de control (criterio de `spec-privada-tablero.md §6`).
+
 ## Después del cutover
 
 - T+1..T+30: monitoreo. Sistema viejo apagado pero conservado (rollback barato).
-- Specs hijos E1–E5 + Tablero nativo → decommission (`spec-migracion-svc-privada.md §10`).
+- Specs hijos E1–E4 + decommission (`spec-migracion-svc-privada.md §10`).
