@@ -415,6 +415,30 @@ paths:
         "200":
           description: OK
 
+  /api/v1/privada/localidades-info/all:
+    get:
+      operationId: listLocalidadesInfo
+      summary: Todas las fichas de localidad (para export Excel / impresión del Resumen Territorial)
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de fichas de localidad
+    options:
+      operationId: corsPrivadaLocalidadesInfoAll
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/privada/localidades-info:
     get:
       operationId: getLocalidadInfo
