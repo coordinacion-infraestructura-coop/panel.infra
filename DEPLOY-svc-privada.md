@@ -219,8 +219,8 @@ cd ~/gestorcooperativo/backend/svc-vivienda
 gcloud run deploy svc-vivienda --source . --region=southamerica-east1 \
   --update-env-vars=PRIVADA_FETCH_ENABLED=true,SVC_PRIVADA_INTERNAL_URL=${PRIVADA_URL}
 
-# 4. frontend: build con el flag y deploy
-#    en frontend/.env.production agregar: VITE_PRIVADA_SERVER_FEDERATION=true
+# 4. frontend: rebuild + deploy (el merge client-side de Privada ya está OFF por
+#    default desde el commit ba70889 — NO hay que tocar .env). Hard-refresh después.
 cd ~/gestorcooperativo/frontend && git pull origin main
 npm run build && firebase deploy --only hosting
 
@@ -231,8 +231,9 @@ curl -s "$GW/api/v1/resumen-territorial" -H "Authorization: Bearer $TOKEN" | pyt
 #   debe incluir "privada"; las líneas privada NO deben aparecer duplicadas
 ```
 
-**Rollback**: redeploy svc-vivienda con `_PRIVADA_FETCH_ENABLED=false` y frontend sin el flag
-(`VITE_PRIVADA_SERVER_FEDERATION` fuera de `.env.production`) → vuelve al merge client-side.
+**Rollback**: redeploy svc-vivienda con `--update-env-vars=PRIVADA_FETCH_ENABLED=false` **y**
+rebuild del frontend con `VITE_PRIVADA_CLIENT_FEDERATION=true` en `.env.production` → vuelve al
+merge client-side.
 
 ## §7 — Tablero nativo (gate del decommission de BigQuery)
 
