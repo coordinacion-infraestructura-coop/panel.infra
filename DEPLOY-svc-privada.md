@@ -204,13 +204,20 @@ gcloud run services add-iam-policy-binding svc-privada --region=southamerica-eas
   --member="serviceAccount:${VIV_SA}" --role="roles/run.invoker"
 
 # 2. redeploy de svc-privada (trae GET /internal/privada/rollup-territorial)
+#    Usar `run deploy --source .` desde el dir del servicio: reconstruye la imagen y
+#    CONSERVA la config (SA, secretos, Cloud SQL, env). `gcloud builds submit --config`
+#    a mano deja ${SHORT_SHA} vacío -> "invalid image name ...:".
 cd ~/gestorcooperativo/backend && git pull origin main
-gcloud builds submit --config=cloudbuild.yaml \
-  --substitutions=_SERVICE=svc-privada,_SVC_VIVIENDA_INTERNAL_URL=https://svc-vivienda-iwni7vc2qq-rj.a.run.app
+cd svc-privada
+gcloud run deploy svc-privada --source . --region=southamerica-east1
+#    check: 403 = endpoint interno existe (lo bloquea IAM); 404 = no se desplegó
+curl -s -o /dev/null -w "%{http_code}\n" "${PRIVADA_URL}/internal/privada/rollup-territorial"
 
 # 3. redeploy de svc-vivienda con la federación server-side encendida
-gcloud builds submit --config=cloudbuild.yaml \
-  --substitutions=_SERVICE=svc-vivienda,_PRIVADA_FETCH_ENABLED=true,_SVC_PRIVADA_INTERNAL_URL=${PRIVADA_URL}
+#    --update-env-vars MERGEA (no borra GOOGLE_SHEET_CC_ID, etc.)
+cd ~/gestorcooperativo/backend/svc-vivienda
+gcloud run deploy svc-vivienda --source . --region=southamerica-east1 \
+  --update-env-vars=PRIVADA_FETCH_ENABLED=true,SVC_PRIVADA_INTERNAL_URL=${PRIVADA_URL}
 
 # 4. frontend: build con el flag y deploy
 #    en frontend/.env.production agregar: VITE_PRIVADA_SERVER_FEDERATION=true
