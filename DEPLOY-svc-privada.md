@@ -241,7 +241,65 @@ merge client-side.
 Antes de apagar BigQuery: comparar KPIs del tablero nuevo contra el Looker `f9dc4a4e-…` para un
 rango de fechas de control (criterio de `spec-privada-tablero.md §6`).
 
+## §D+E1+E2 — Catálogos editables + Ok Gob/Min + mejoras de lista (2026-09-02)
+
+Migración `0002` (nuevas tablas + columnas) + backfill + config de gateway nueva. `panel.backend`
+hasta `1b20f70`, `panel.front` `92422d5`, `panel.infra` `bbbf57c`.
+
+```bash
+gcloud config set project gestorcooperativo
+CONN="gestorcooperativo:southamerica-east1:ministerio-postgres"
+
+# 1) redeploy svc-privada (código: catalogos_editables, sort, ok_gob/min, /localidades-info/all)
+cd ~/gestorcooperativo/backend && git pull origin main && cd svc-privada
+gcloud run deploy svc-privada --source . --region=southamerica-east1
+
+# 2) migración 0002 en db_privada de prod (Cloud Shell + proxy + venv de la Fase B)
+~/cloud-sql-proxy "$CONN" --port 5432 > /tmp/proxy.log 2>&1 &
+sleep 4 && cat /tmp/proxy.log            # "Listening on 127.0.0.1:5432"
+source .venv/bin/activate
+PRIV_PW=$(gcloud secrets versions access latest --secret=svc-privada-db-url \
+  | sed -E 's|.*//user_privada:([^@]+)@.*|\1|')
+export DATABASE_URL="postgresql+asyncpg://user_privada:${PRIV_PW}@127.0.0.1:5432/db_privada"
+python -m alembic current                # 0001
+python -m alembic upgrade head           # aplica 0002
+python -m alembic current                # 0002
+
+# 3) backfill de categoria_id / acciones_implementadas (RE-1: mirar antes de aplicar)
+python scripts/backfill_categorias.py --dry-run
+python scripts/backfill_categorias.py --diff-informe     # comparación tema(regex) → categoría nueva
+python scripts/backfill_categorias.py                    # aplica (sólo donde está NULL)
+#   → compartir la salida de --diff-informe con Secretaría Privada antes de E4
+
+# 4) config de gateway nueva (por /localidades-info/all + los 6 paths de /categorias,/programas,/areas)
+cd ~/gestorcooperativo/infra/gateway && git pull origin main
+python3 -c "import yaml; yaml.safe_load(open('openapi.yaml')); print('yaml ok')"
+FECHA=$(date +%Y%m%d)
+gcloud api-gateway api-configs create ministerio-config-v${FECHA} \
+  --api=ministerio-api --openapi-spec=openapi.yaml \
+  --backend-auth-service-account=api-gateway-sa@gestorcooperativo.iam.gserviceaccount.com
+gcloud api-gateway gateways update ministerio-gateway \
+  --api=ministerio-api --api-config=ministerio-config-v${FECHA} --location=us-central1
+# esperar ~5 min
+
+# 5) frontend
+cd ~/gestorcooperativo/frontend && git pull origin main
+npm run build && firebase deploy --only hosting
+```
+
+Smoke (token Admin):
+```bash
+GW="https://ministerio-gateway-3j5k00ma.uc.gateway.dev"
+curl -s "$GW/api/v1/privada/categorias" -H "Authorization: Bearer $TOKEN"                 # 9 categorías
+curl -s "$GW/api/v1/privada/localidades-info/all" -H "Authorization: Bearer $TOKEN" | head -c 300
+curl -s "$GW/api/v1/privada/gestiones?sort=urgencia&sort_dir=asc&limit=3" -H "Authorization: Bearer $TOKEN"
+```
+
+**Rollback**: `gateways update ... --api-config=ministerio-config-v20260901`. La migración 0002 es
+aditiva (columnas nullable + tablas nuevas) — `alembic downgrade 0001` si hiciera falta.
+
 ## Después del cutover
 
 - T+1..T+30: monitoreo. Sistema viejo apagado pero conservado (rollback barato).
-- Specs hijos E1–E4 + decommission (`spec-migracion-svc-privada.md §10`).
+- E3 (DAG) y E4 (informe v2) → necesitan la reunión de relevamiento con Secretaría Privada.
+- Decommission (`spec-migracion-svc-privada.md §10`).
