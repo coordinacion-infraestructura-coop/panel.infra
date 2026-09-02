@@ -352,6 +352,238 @@ paths:
         "200":
           description: OK
 
+
+  /api/v1/privada/categorias:
+    get:
+      operationId: listCategorias
+      summary: Listar categorias (catálogo editable)
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearCategoria
+      summary: Crear categoría
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaCategorias
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/categorias/{item_id}:
+    parameters:
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: editarCategoria
+      summary: Editar categoría
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: eliminarCategoria
+      summary: Eliminar categoría
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaCategoriasItem
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/programas:
+    get:
+      operationId: listProgramas
+      summary: Listar programas (catálogo editable)
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearPrograma
+      summary: Crear programa
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaProgramas
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/programas/{item_id}:
+    parameters:
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: editarPrograma
+      summary: Editar programa
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: eliminarPrograma
+      summary: Eliminar programa
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaProgramasItem
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/areas:
+    get:
+      operationId: listAreas
+      summary: Listar areas (catálogo editable)
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearArea
+      summary: Crear área
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaAreas
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/areas/{item_id}:
+    parameters:
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: editarArea
+      summary: Editar área
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: eliminarArea
+      summary: Eliminar área
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPrivadaAreasItem
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/privada/gestiones/{gestion_id}/eventos:
     get:
       operationId: listarEventosGestion
