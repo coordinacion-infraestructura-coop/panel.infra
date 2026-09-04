@@ -277,6 +277,40 @@ paths:
         "200":
           description: OK
 
+  /api/v1/privada/gestiones/{gestion_id}/detalle:
+    patch:
+      operationId: corregirDetalleGestion
+      summary: Corrección manual de "detalle" (error de carga, no queda en el historial)
+      tags: [privada]
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Detalle corregido
+    options:
+      operationId: corsPrivadaGestionDetalle
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: gestion_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/privada/gestiones/{gestion_id}/cambiar-estado:
     post:
       operationId: cambiarEstadoGestion
