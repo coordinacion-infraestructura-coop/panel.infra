@@ -1,9 +1,10 @@
 swagger: "2.0"
 info:
-  title: "Ministerio de Cooperativas y Mutuales — API Unificada"
+  title: "Secretaría General de Gobierno — API Unificada"
   description: >
-    API Gateway centralizado para todos los servicios del Ministerio de
-    Cooperativas y Mutuales de la Provincia de Córdoba.
+    API Gateway centralizado para todos los servicios de la Secretaría
+    General de Gobierno de la Provincia de Córdoba (ex Ministerio de
+    Cooperativas y Mutuales — ver ADR-018).
     Valida JWT de Google OAuth 2.0, redirige al microservicio correspondiente.
   version: "1.0.0.1"
 host: "ministerio-gateway-3j5k00ma.uc.gateway.dev"
