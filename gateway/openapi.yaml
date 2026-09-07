@@ -3166,6 +3166,64 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/checklist-tecnico/admin/item-estado:
+    post:
+      operationId: crearItemEstadoChecklist
+      summary: Crear estado de la documentación (catálogo, Admin)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Estado creado
+    options:
+      operationId: corsItemEstadoChecklist
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/checklist-tecnico/admin/item-estado/{item_estado_id}:
+    patch:
+      operationId: actualizarItemEstadoChecklist
+      summary: Actualizar estado de la documentación (catálogo, Admin)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: item_estado_id
+          required: true
+          type: integer
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsItemEstadoChecklistId
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: item_estado_id
+          required: true
+          type: integer
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   # ===========================================================================
   # Servicios futuros
   # ===========================================================================
