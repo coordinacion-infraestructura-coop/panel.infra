@@ -2888,6 +2888,68 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}/obs-obra:
+    get:
+      operationId: listarObsObraChecklistTecnico
+      summary: Bitácora de observaciones de obra de una entidad
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: crearObsObraChecklistTecnico
+      summary: Agregar una observación de obra (bitácora fechada)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "201":
+          description: Created
+    options:
+      operationId: corsChecklistObsObra
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: programa
+          required: true
+          type: string
+        - in: path
+          name: entidad_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/checklist-tecnico/{programa}/{entidad_id}:
     get:
       operationId: getChecklistTecnico
