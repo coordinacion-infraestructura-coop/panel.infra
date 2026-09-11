@@ -298,6 +298,141 @@ curl -s "$GW/api/v1/privada/gestiones?sort=urgencia&sort_dir=asc&limit=3" -H "Au
 **Rollback**: `gateways update ... --api-config=ministerio-config-v20260901`. La migración 0002 es
 aditiva (columnas nullable + tablas nuevas) — `alembic downgrade 0001` si hiciera falta.
 
+## Nuevos deploys — cambios en svc-privada
+
+> **Nota de alcance**: este apartado documenta el deploy del **panel de notificaciones internas**
+> (spec `spec-notificaciones.md`, ADR-019) más los cambios pendientes de sesiones anteriores. A
+> pesar del título del archivo, este lote **no toca `svc-privada`** — es `svc-vivienda` (módulo
+> transversal `app/notificaciones/`, migración `0028`) + `infra/gateway/openapi.yaml` + `frontend/`
+> (campana/panel de notificaciones, export PDF ampliado de Gestiones, Ok Gobernador en la ficha de
+> municipio). Se deja en este archivo porque es el runbook de deploy vigente del proyecto.
+
+```bash
+gcloud config set project gestorcooperativo
+CONN="gestorcooperativo:southamerica-east1:ministerio-postgres"
+GW="https://ministerio-gateway-3j5k00ma.uc.gateway.dev"
+```
+
+### 0) Local — commitear y pushear cada repo
+
+Cada carpeta es un checkout independiente; el commit lleva el trailer estándar de la sesión.
+
+```bash
+# docs/ (repo panel.docs, remote origin_docs)
+cd docs
+git add -A
+git commit -m "spec-notificaciones + ADR-019: panel de notificaciones internas" \
+  -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" \
+  -m "Claude-Session: https://claude.ai/code/session_01Qj1u9Wurp5DW11NsoqwJ2d"
+git push origin_docs main
+
+# services/ (repo panel.backend, remote origin_back)
+cd ../services
+git add -A
+git commit -m "svc-vivienda: panel de notificaciones internas (spec-notificaciones.md)" \
+  -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" \
+  -m "Claude-Session: https://claude.ai/code/session_01Qj1u9Wurp5DW11NsoqwJ2d"
+git push origin_back main
+
+# infra/ (repo gestor.infra, remote origin_infra)
+cd ../infra
+git add -A
+git commit -m "gateway: paths de /api/v1/notificaciones" \
+  -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" \
+  -m "Claude-Session: https://claude.ai/code/session_01Qj1u9Wurp5DW11NsoqwJ2d"
+git push origin_infra main
+
+# frontend/ (repo panel.front, remote origin) — incluye además el export PDF de
+# Gestiones (columnas nuevas + Derivado A) y el Ok Gobernador de la ficha de municipio
+cd ../frontend
+git add -A
+git commit -m "notificaciones: campana + panel; gestiones: export PDF ampliado; ficha de municipio: Ok Gobernador" \
+  -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" \
+  -m "Claude-Session: https://claude.ai/code/session_01Qj1u9Wurp5DW11NsoqwJ2d"
+git push origin main
+```
+
+### 1) Cloud Shell — redeploy de svc-vivienda
+
+```bash
+cd ~/gestorcooperativo/backend && git pull origin main && cd svc-vivienda
+gcloud run deploy svc-vivienda --source . --region=southamerica-east1
+#   `--source .` reconstruye la imagen y CONSERVA la config existente (SA, secretos,
+#   Cloud SQL, env vars) — no usar `gcloud builds submit --config` a mano.
+```
+
+### 2) Cloud Shell — migración `0028` en `db_vivienda`
+
+```bash
+# proxy
+~/cloud-sql-proxy "$CONN" --port 5432 > /tmp/proxy_vivienda.log 2>&1 &
+sleep 4 && cat /tmp/proxy_vivienda.log   # "Listening on 127.0.0.1:5432"
+
+cd ~/gestorcooperativo/backend/svc-vivienda
+# PASS con + y = URL-encodeados como %2B / %3D (ver root CLAUDE.md §Comandos frecuentes)
+export DATABASE_URL="postgresql+asyncpg://user_vivienda:PASS@127.0.0.1:5432/db_vivienda"
+python -m alembic current     # 0027
+python -m alembic upgrade head
+python -m alembic current     # 0028 — crea portal_notificaciones + portal_notificacion_lecturas
+                               #        y siembra 2 filas de ejemplo
+```
+
+**Rollback**: `python -m alembic downgrade -1` (migración aditiva — 2 tablas nuevas, nada más se toca).
+
+### 3) Cloud Shell — config nueva del Gateway (4 paths de `/api/v1/notificaciones`)
+
+```bash
+cd ~/gestorcooperativo/infra/gateway && git pull origin main
+python3 -c "import yaml; yaml.safe_load(open('openapi.yaml')); print('yaml ok')"
+
+FECHA=$(date +%Y%m%d)
+gcloud api-gateway api-configs create ministerio-config-v${FECHA} \
+  --api=ministerio-api --openapi-spec=openapi.yaml \
+  --backend-auth-service-account=api-gateway-sa@gestorcooperativo.iam.gserviceaccount.com
+
+gcloud api-gateway gateways update ministerio-gateway \
+  --api=ministerio-api --api-config=ministerio-config-v${FECHA} --location=us-central1
+# esperar ~5 min antes del smoke
+```
+
+**Rollback**: `gcloud api-gateway gateways update ministerio-gateway --api=ministerio-api --api-config=<config-vigente-antes-de-este-cambio> --location=us-central1` — confirmar cuál era con `gcloud api-gateway gateways describe ministerio-gateway` **antes** de aplicar el cambio de arriba, para tener el nombre a mano.
+
+### 4) Local — deploy del frontend
+
+```bash
+cd frontend
+git pull origin main
+npm run build && firebase deploy --only hosting
+```
+
+### 5) Smoke test
+
+```bash
+TOKEN="<ID token Firebase de un usuario con fila en portal_usuarios>"
+curl -s "$GW/api/v1/notificaciones" -H "Authorization: Bearer $TOKEN"
+#   esperado: 2 notificaciones sembradas (una "Panel de notificaciones activo", nivel info;
+#   otra "Ejemplo de alerta operativa", nivel advertencia), leida=false, no_leidas=2
+
+curl -s "$GW/api/v1/notificaciones/no-leidas/contar" -H "Authorization: Bearer $TOKEN"
+#   {"no_leidas":2}
+
+curl -s -X POST "$GW/api/v1/notificaciones/marcar-todas-leidas" -H "Authorization: Bearer $TOKEN"
+#   {"ok":true,"marcadas":2}
+curl -s "$GW/api/v1/notificaciones/no-leidas/contar" -H "Authorization: Bearer $TOKEN"
+#   {"no_leidas":0}
+
+curl -s -o /dev/null -w "%{http_code}\n" -X OPTIONS "$GW/api/v1/notificaciones"
+#   200 (CORS preflight)
+```
+
+En el navegador: login → la campana del header muestra el badge con `2` → abre `/notificaciones`
+→ lista las 2 filas sembradas → "Marcar todas como leídas" deja el badge en `0`.
+
+Aparte, verificar los cambios ya deployados de sesiones previas: en `/privada/gestiones`, exportar
+PDF y confirmar las columnas nuevas (Ministerio/Agencia, Categoría General, Campo de Trabajo,
+Derivado A, Monto); en `/resumen-territorial`, generar una "Ficha de municipio (PDF)" y confirmar
+la línea "Ok Gobernador" en Cordón Cuneta y Mi Lugar.
+
 ## Después del cutover
 
 - T+1..T+30: monitoreo. Sistema viejo apagado pero conservado (rollback barato).

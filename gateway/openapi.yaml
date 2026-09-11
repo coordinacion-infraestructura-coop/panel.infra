@@ -1674,6 +1674,112 @@ paths:
         "200":
           description: OK
 
+  /api/v1/notificaciones:
+    get:
+      operationId: listarNotificaciones
+      summary: Feed de notificaciones internas visibles para el usuario
+      tags: [notificaciones]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de notificaciones + conteo de no leídas
+    options:
+      operationId: corsNotificaciones
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/notificaciones/no-leidas/contar:
+    get:
+      operationId: contarNotificacionesNoLeidas
+      summary: Conteo de notificaciones no leídas del usuario (para el badge de la campana)
+      tags: [notificaciones]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: "{ no_leidas: number }"
+    options:
+      operationId: corsNotificacionesContar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/notificaciones/marcar-todas-leidas:
+    post:
+      operationId: marcarTodasNotificacionesLeidas
+      summary: Marca como leídas todas las notificaciones visibles no leídas del usuario
+      tags: [notificaciones]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsNotificacionesMarcarTodas
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/notificaciones/{notif_id}/marcar-leida:
+    post:
+      operationId: marcarNotificacionLeida
+      summary: Marca una notificación como leída para el usuario actual
+      tags: [notificaciones]
+      parameters:
+        - in: path
+          name: notif_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsNotificacionesMarcarLeida
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: notif_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordoba-hogar/informe:
     get:
       operationId: getInformeCordobaHogar
