@@ -900,6 +900,30 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/informe-localidades:
+    get:
+      operationId: informeLocalidadesVivienda
+      summary: Informe "Localidades por Departamento" (CC/CH/habitantes), on-the-fly
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsInformeLocalidades
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/programas/{programa_id}:
     get:
       operationId: getProgramaVivienda
