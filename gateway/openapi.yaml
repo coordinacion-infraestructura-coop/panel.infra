@@ -3417,9 +3417,70 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-gralgob — panel preliminar de solo lectura (spec-sync-atp-compromiso-gobernador.md §12)
+  # Excepción documentada: solo estos 2 GET, sin escritura, sin lógica de negocio
+  # nueva — el spec-svc-gralgob.md (dominio completo) sigue en draft.
+  # ===========================================================================
+  /api/v1/gralgob/compromisos:
+    get:
+      operationId: listarCompromisosAtp
+      summary: Listado de compromisos ATP sincronizados desde el Sheet ATP - Compromiso Gobernador (solo lectura)
+      tags: [gralgob]
+      parameters:
+        - in: query
+          name: limit
+          type: integer
+          default: 1200
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: Lista de compromisos ATP
+    options:
+      operationId: corsGralgobCompromisos
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/gralgob/sync-estado:
+    get:
+      operationId: syncEstadoGralgob
+      summary: Estado de la última sincronización del Sheet ATP - Compromiso Gobernador (solo lectura)
+      tags: [gralgob]
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsGralgobSyncEstado
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
   # svc-territorial:     /api/v1/territorial/*
-  # svc-gasifera:        /api/v1/gasifera/*
   # svc-desarrollo:      /api/v1/desarrollo/*
