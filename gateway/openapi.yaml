@@ -3417,6 +3417,101 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-gasifera — panel preliminar de solo lectura (spec-sync-gasifera-pit.md §12)
+  # Excepción documentada: solo estos 3 GET, sin escritura, sin lógica de negocio
+  # nueva — el spec-svc-gasifera.md (dominio completo) sigue en draft.
+  # ===========================================================================
+  /api/v1/gasifera/obras:
+    get:
+      operationId: listarObrasGas
+      summary: Listado de obras de gas sincronizadas desde el Sheet SEC. GAS PIT (solo lectura)
+      tags: [gasifera]
+      parameters:
+        - in: query
+          name: limit
+          type: integer
+          default: 200
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de obras de gas
+    options:
+      operationId: corsGasiferaObras
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/gasifera/acciones-territorio:
+    get:
+      operationId: listarAccionesTerritorioGas
+      summary: Listado de acciones de seguimiento territorial de gas (solo lectura)
+      tags: [gasifera]
+      parameters:
+        - in: query
+          name: limit
+          type: integer
+          default: 500
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista de acciones territoriales
+    options:
+      operationId: corsGasiferaAccionesTerritorio
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/gasifera/sync-estado:
+    get:
+      operationId: syncEstadoGasifera
+      summary: Estado de la última sincronización del Sheet SEC. GAS PIT (solo lectura)
+      tags: [gasifera]
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsGasiferaSyncEstado
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gasifera-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # svc-gralgob — panel preliminar de solo lectura (spec-sync-atp-compromiso-gobernador.md §12)
   # Excepción documentada: solo estos 2 GET, sin escritura, sin lógica de negocio
   # nueva — el spec-svc-gralgob.md (dominio completo) sigue en draft.
