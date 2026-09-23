@@ -3474,6 +3474,11 @@ paths:
     options:
       operationId: corsGralgobCronograma
       summary: CORS preflight
+      parameters:
+        - in: path
+          name: compromiso_id
+          required: true
+          type: string
       security: []
       x-google-backend:
         address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
