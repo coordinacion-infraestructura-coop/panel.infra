@@ -1515,6 +1515,35 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/geo/duplicados:
+    get:
+      operationId: listarDuplicadosGeo
+      summary: Detección de duplicados de localidad por nombre normalizado (ADR-024)
+      tags: [vivienda]
+      parameters:
+        - in: query
+          name: modulo
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Grupos de localidades con más de una grafía cruda distinta
+    options:
+      operationId: corsGeoDuplicados
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordon-cuneta/{municipio_id}:
     patch:
       operationId: actualizarMunicipioCordonCuneta
