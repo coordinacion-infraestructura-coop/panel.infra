@@ -1833,6 +1833,162 @@ paths:
         "200":
           description: OK
 
+  # Asignación manual de localidades sin resolver (sólo Admin) —
+  # docs/files/spec-geo-asignacion-manual-localidades.md
+  /api/v1/geo/pendientes:
+    get:
+      operationId: listarGeoPendientes
+      summary: Localidades que no resolvieron contra el padrón oficial
+      tags: [geo]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista paginada de pendientes
+    options:
+      operationId: corsGeoPendientes
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/geo/pendientes/{pendiente_id}/resolver:
+    post:
+      operationId: resolverGeoPendiente
+      summary: Vincula un pendiente a una localidad del padrón o lo confirma sin vínculo
+      tags: [geo]
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        # Además de escribir, llama a svc-privada y recalcula el Resumen Territorial.
+        deadline: 120.0
+      responses:
+        "200":
+          description: Impacto del vínculo (o su simulación con dry_run)
+    options:
+      operationId: corsGeoPendienteResolver
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/geo/pendientes/{pendiente_id}/descartar:
+    post:
+      operationId: descartarGeoPendiente
+      summary: Saca un pendiente de la lista sin crear un vínculo
+      tags: [geo]
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsGeoPendienteDescartar
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/geo/pendientes/{pendiente_id}/deshacer:
+    post:
+      operationId: deshacerGeoPendiente
+      summary: Deshace el vínculo manual que resolvió un pendiente
+      tags: [geo]
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        # Recalcula el Resumen Territorial al terminar.
+        deadline: 120.0
+      responses:
+        "200":
+          description: Registros restaurados y pendientes reabiertos
+    options:
+      operationId: corsGeoPendienteDeshacer
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: pendiente_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/geo/alias:
+    get:
+      operationId: listarGeoAlias
+      summary: Vínculos manuales de localidades vigentes
+      tags: [geo]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Lista paginada de alias
+    options:
+      operationId: corsGeoAlias
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/cordoba-hogar/informe:
     get:
       operationId: getInformeCordobaHogar
