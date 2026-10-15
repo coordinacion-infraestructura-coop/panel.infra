@@ -900,6 +900,54 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/tablero-analitico:
+    get:
+      operationId: tableroAnaliticoVivienda
+      summary: Tablero analítico de Vivienda, en vivo (spec-vivienda-tablero-analitico, accesible a TecnicoDGV)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroAnalitico
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/vivienda/tablero-analitico/tendencias:
+    get:
+      operationId: tendenciasTableroAnaliticoVivienda
+      summary: KPIs diarios de Vivienda para Tendencias (?dias=)
+      tags: [vivienda]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroAnaliticoTendencias
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/informe-localidades:
     get:
       operationId: informeLocalidadesVivienda
