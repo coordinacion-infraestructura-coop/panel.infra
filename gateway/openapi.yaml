@@ -3010,6 +3010,40 @@ paths:
         "200":
           description: OK
 
+  /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}/valuacion-idecor:
+    post:
+      operationId: recalcularValuacionIdecorML
+      summary: Recalcula el valor fiscal sugerido y el valor de mercado desde IDECOR (spec-mi-lugar-valor-fiscal-idecor.md)
+      tags: [vivienda]
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsMLProyectoValuacionIdecor
+      summary: CORS preflight
+      parameters:
+        - in: path
+          name: proyecto_id
+          required: true
+          type: string
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/vivienda/mi-lugar/proyectos/{proyecto_id}/pedidos:
     get:
       operationId: listarPedidosML
