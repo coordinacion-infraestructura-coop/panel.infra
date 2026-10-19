@@ -4089,6 +4089,34 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-datos-externos — Tablero de Gobierno (ADR-028, spec-tablero-gobierno-panel.md)
+  # Solo Admin y Autoridad; el servicio responde 403 al resto.
+  # ===========================================================================
+  /api/v1/datos-externos/tablero/meta:
+    get:
+      operationId: tableroGobiernoMeta
+      summary: Filtros (localidades, años) y frescura de fuentes del Tablero de Gobierno
+      tags: [datos-externos]
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoMeta
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
