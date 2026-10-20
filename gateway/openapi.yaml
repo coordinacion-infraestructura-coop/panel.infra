@@ -4116,6 +4116,88 @@ paths:
         "200":
           description: OK
 
+  /api/v1/datos-externos/tablero/inicio:
+    get:
+      operationId: tableroGobiernoInicio
+      summary: Tablero de Gobierno — Inicio (KPIs y transferido por departamento)
+      tags: [datos-externos]
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoInicio
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/datos-externos/tablero/transferencias/{seccion}:
+    get:
+      operationId: tableroGobiernoTransferencias
+      summary: Tablero de Gobierno — Coparticipación / FOFINDES
+      tags: [datos-externos]
+      parameters:
+        - name: seccion
+          in: path
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoTransferencias
+      summary: CORS preflight
+      security: []
+      parameters:
+        - name: seccion
+          in: path
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/gralgob/tablero/atp-compromisos:
+    get:
+      operationId: tableroGobiernoAtpCompromisos
+      summary: Tablero de Gobierno — ATP Compromisos (solo Admin y Autoridad)
+      tags: [gralgob]
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoAtpCompromisos
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
   # ===========================================================================
   # Servicios futuros
   # ===========================================================================
