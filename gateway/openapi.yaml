@@ -4198,6 +4198,32 @@ paths:
         "200":
           description: OK
 
+  # Tablero de Gobierno, Etapa 4 — ATP Interno (spec-atp-interno.md §4.1). Sensible: solo Admin y
+  # Autoridad, sin referente en la respuesta.
+  /api/v1/gralgob/tablero/atp-interno:
+    get:
+      operationId: tableroGobiernoAtpInterno
+      summary: Tablero de Gobierno — ATP Interno (solo Admin y Autoridad)
+      tags: [gralgob]
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoAtpInterno
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-gralgob-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
   # ===========================================================================
   # Servicios futuros
   # ===========================================================================
