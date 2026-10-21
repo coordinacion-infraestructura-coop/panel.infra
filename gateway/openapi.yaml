@@ -4140,6 +4140,41 @@ paths:
         "200":
           description: OK
 
+  # Tablero de Gobierno, Etapa 5 — gestión territorial (spec-datos-externos-fase5-gestion-territorial.md §4):
+  # obras (sin montos), visitas, visitas-gobernador, reuniones, convenios. Solo Admin y Autoridad.
+  /api/v1/datos-externos/tablero/gestion/{seccion}:
+    get:
+      operationId: tableroGobiernoGestion
+      summary: Tablero de Gobierno — Gestión territorial
+      tags: [datos-externos]
+      parameters:
+        - name: seccion
+          in: path
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoGestion
+      summary: CORS preflight
+      security: []
+      parameters:
+        - name: seccion
+          in: path
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
   /api/v1/datos-externos/tablero/transferencias/{seccion}:
     get:
       operationId: tableroGobiernoTransferencias
