@@ -4116,6 +4116,30 @@ paths:
         "200":
           description: OK
 
+  /api/v1/datos-externos/tablero/actualizar:
+    post:
+      operationId: tableroGobiernoActualizar
+      summary: Tablero de Gobierno — Actualizar datos (dispara los jobs de las fuentes)
+      tags: [datos-externos]
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsTableroGobiernoActualizar
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-datos-externos-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/datos-externos/tablero/inicio:
     get:
       operationId: tableroGobiernoInicio
