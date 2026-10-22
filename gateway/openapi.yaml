@@ -2685,6 +2685,30 @@ paths:
         "200":
           description: OK
 
+  /api/v1/portal/areas:
+    get:
+      operationId: getPortalAreas
+      summary: Catálogo de áreas de acceso por secretaría (spec-portal-areas-de-acceso.md)
+      tags: [portal]
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: Áreas de cada secretaría
+    options:
+      operationId: corsPortalAreas
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-vivienda-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
   /api/v1/portal/admin/usuarios:
     get:
       operationId: listarPortalUsuarios
