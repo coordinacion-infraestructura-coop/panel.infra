@@ -4341,6 +4341,189 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-agente — Asistente de consultas (spec-agente-consultas.md, ADR-033).
+  # Solo Admin/Autoridad (lo controla el backend). La pregunta llama al LLM y puede tardar:
+  # deadline 180 s. Responde Server-Sent Events.
+  # ===========================================================================
+  /api/v1/agente/conversaciones:
+    get:
+      operationId: agenteListarConversaciones
+      summary: Conversaciones del usuario (paginado)
+      tags: [agente]
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: agenteCrearConversacion
+      summary: Nueva conversación
+      tags: [agente]
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "201":
+          description: OK
+    options:
+      operationId: corsAgenteConversaciones
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/agente/conversaciones/{conv_id}:
+    get:
+      operationId: agenteObtenerConversacion
+      summary: Mensajes de una conversación
+      tags: [agente]
+      parameters:
+        - in: path
+          name: conv_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: agenteBorrarConversacion
+      summary: Borrar (soft delete) una conversación
+      tags: [agente]
+      parameters:
+        - in: path
+          name: conv_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "204":
+          description: OK
+    options:
+      operationId: corsAgenteConversacion
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: conv_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/agente/conversaciones/{conv_id}/mensajes:
+    post:
+      operationId: agentePreguntar
+      summary: Pregunta al asistente (SSE)
+      tags: [agente]
+      parameters:
+        - in: path
+          name: conv_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        deadline: 180.0
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsAgenteMensajes
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: conv_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/agente/mensajes/{mensaje_id}/feedback:
+    post:
+      operationId: agenteFeedback
+      summary: Feedback 👍/👎 sobre una respuesta
+      tags: [agente]
+      parameters:
+        - in: path
+          name: mensaje_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "204":
+          description: OK
+    options:
+      operationId: corsAgenteFeedback
+      summary: CORS preflight
+      security: []
+      parameters:
+        - in: path
+          name: mensaje_id
+          required: true
+          type: string
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/agente/estado:
+    get:
+      operationId: agenteEstado
+      summary: Frescura de las fuentes de la capa semántica
+      tags: [agente]
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsAgenteEstado
+      summary: CORS preflight
+      security: []
+      x-google-backend:
+        address: "https://svc-agente-276787280674.southamerica-east1.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-agente-276787280674.southamerica-east1.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
