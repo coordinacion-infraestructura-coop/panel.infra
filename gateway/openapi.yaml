@@ -4524,6 +4524,444 @@ paths:
           description: OK
 
   # ===========================================================================
+  # svc-privada — Planificación de programas por localidad (ADR-036,
+  # docs/files/spec-privada-planificacion-programas.md §7)
+  # ===========================================================================
+
+  /api/v1/privada/planificacion/programas:
+    get:
+      operationId: planifListarProgramas
+      summary: "Planificación — listar programas"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: planifCrearPrograma
+      summary: "Planificación — crear programa"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif0
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+    patch:
+      operationId: planifEditarPrograma
+      summary: "Planificación — editar programa"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: planifBorrarPrograma
+      summary: "Planificación — eliminar programa"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif1
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/estados:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+    get:
+      operationId: planifListarEstados
+      summary: "Planificación — listar estados"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: planifCrearEstado
+      summary: "Planificación — crear estado"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif2
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/estados/{item_id}:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: planifEditarEstado
+      summary: "Planificación — editar estado"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: planifBorrarEstado
+      summary: "Planificación — eliminar estado"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif3
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/prioridades:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+    get:
+      operationId: planifListarPrioridads
+      summary: "Planificación — listar prioridades"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: planifCrearPrioridad
+      summary: "Planificación — crear prioridade"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif4
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/prioridades/{item_id}:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: planifEditarPrioridad
+      summary: "Planificación — editar prioridade"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: planifBorrarPrioridad
+      summary: "Planificación — eliminar prioridade"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif5
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/columnas:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+    get:
+      operationId: planifListarColumnas
+      summary: "Planificación — listar columnas"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: planifCrearColumna
+      summary: "Planificación — crear columna"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif6
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/columnas/{item_id}:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+      - in: path
+        name: item_id
+        required: true
+        type: string
+    patch:
+      operationId: planifEditarColumna
+      summary: "Planificación — editar columna"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: planifBorrarColumna
+      summary: "Planificación — eliminar columna"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif7
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/localidades:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+    get:
+      operationId: planifPlanilla
+      summary: "Planificación — planilla por localidad"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif8
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/localidades/{id_geo}:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+      - in: path
+        name: id_geo
+        required: true
+        type: string
+    patch:
+      operationId: planifGuardarFila
+      summary: "Planificación — guardar campo de una localidad"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif9
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  /api/v1/privada/planificacion/programas/{programa_id}/localidades/{id_geo}/historial:
+    parameters:
+      - in: path
+        name: programa_id
+        required: true
+        type: string
+      - in: path
+        name: id_geo
+        required: true
+        type: string
+    get:
+      operationId: planifHistorial
+      summary: "Planificación — historial de una localidad"
+      tags: [privada]
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+    options:
+      operationId: corsPlanif10
+      summary: CORS preflight
+      tags: [privada]
+      security: []
+      x-google-backend:
+        address: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+        path_translation: APPEND_PATH_TO_ADDRESS
+        jwt_audience: "https://svc-privada-iwni7vc2qq-rj.a.run.app"
+      responses:
+        "200":
+          description: OK
+
+  # ===========================================================================
   # Servicios futuros
   # ===========================================================================
   # svc-infraestructura: /api/v1/infraestructura/*
